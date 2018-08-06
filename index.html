@@ -5,13 +5,39 @@
   <link rel="stylesheet" href="./css/main.css" />
 </head>
 <body>
-  <h1>Realtime communication with WebRTC</h1>
-  <audio id="song" controls crossorigin="anonymous"><source src="./js/Dung-Quen-Ten-Anh-Hoa-Vinh.mp3"></audio>
-  <div>
+  <div style="flex: 20%"></div>  
+  <div id="source">
+    <h3>Audio from computer</h3>
+    <div>
+        <h4>Song</h4>
+        <audio id="song" controls crossorigin="anonymous">
+          <source src="./js/Reality.mp3">
+        </audio>
+      </div>
+      <div>
+        <h4>Video</h4>
+        <video id="video" width="320" height="240" controls>
+            <source src="./js/That-Girl.MKV" type="video/webm">
+          </video>
+      </div>
+  </div>
+
+  <div id="result">
+    <h3>Record result</h3>    
+    <div id="function-btn">
       <button id="record" disabled>Start Recording</button>
       <button id="play" disabled>Play</button>
+      <button id="download" disabled><a id="download-link">Download</a></button>
+    </div>
+    <div>
+      <h4>Recorded Audio</h4>
+      <audio id="recordedAudio" controls crossorigin="anonymous">
+        <source>
+      </audio>
+    </div>
   </div>
   
+  <div style="flex: 20%"></div>
   <script src="./js/main.js"></script>
 </body>
 </html>

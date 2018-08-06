@@ -1,8 +1,10 @@
 body {
-  font-family: sans-serif;
+  display: flex;
 }
 
-video {
-  max-width: 100%;
-  width: 320px;
+#source {
+  flex: 30%;
+}
+#result {
+  flex: 30%;
 }
