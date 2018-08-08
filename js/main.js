@@ -2,19 +2,41 @@ let audioCtx = new AudioContext();
 let destination = audioCtx.createMediaStreamDestination();
 let myAudio = document.querySelector('audio#song');
 let myVideo = document.querySelector('video#video');
+const callButton = document.querySelector('button#call');
 const recordButton = document.querySelector('button#record');
 const playButton = document.querySelector('button#play');
 const downloadButton = document.querySelector('button#download');
+
+const musicVolume = document.querySelector('#musicVolume');
+const videoSoundVolume = document.querySelector('#videoSoundVolume');
+const audioStreamVolume = document.querySelector('#audioStreamVolume');
+
+musicVolume.addEventListener('keypress', function (e) {
+    e.preventDefault();
+});
+musicVolume.addEventListener('click', function (e) {
+    sourceMusicGainNode.gain.value = musicVolume.value;
+});
 
 let streamAudio;
 let mediaRecorder;
 let recordedBlobs;
 let sourceMusic = audioCtx.createMediaElementSource(myAudio);
+let sourceMusicGainNode = audioCtx.createGain();
 let sourceVideo = audioCtx.createMediaElementSource(myVideo);
 
 let recordedAudio = document.querySelector('#recordedAudio');
-sourceMusic.connect(audioCtx.destination);
+sourceMusic.connect(sourceMusicGainNode);
+sourceMusicGainNode.connect(audioCtx.destination);
 sourceVideo.connect(audioCtx.destination);
+
+callButton.addEventListener('click', () => {
+    if (callButton.textContent.trim() === 'Start Calling') {
+        startCalling();
+    } else {
+        stopCalling();
+    }
+});
 
 recordButton.addEventListener('click', () => {
     if (recordButton.textContent === 'Start Recording') {
@@ -25,10 +47,12 @@ recordButton.addEventListener('click', () => {
       playButton.disabled = false;
       downloadButton.disabled = false;
     }
-  });
+});
+
 playButton.addEventListener('click', () => {
     recordedAudio.play();
-})
+});
+
 function startRecording () {
     recordedBlobs = [];
     let pcAudioStream = audioCtx.createMediaStreamSource(streamAudio);
@@ -77,8 +101,22 @@ function handleSuccess(stream) {
     console.log("Successfully access to microphone");
 }
 
-navigator.mediaDevices.getUserMedia({audio:true})
-.then(handleSuccess)
-.catch((e)=>{
-    console.log(e)
-})
+function startCalling() {
+    navigator.mediaDevices.getUserMedia({audio:true})
+    .then(handleSuccess)
+    .catch((e)=>{
+        console.log(e)
+    })
+    callButton.textContent = 'Stop Calling';
+    console.log('Start Calling');
+}
+
+function stopCalling() {
+    let tracks = streamAudio.getTracks();
+    tracks.forEach((track) => {
+        track.stop();
+    });
+    callButton.textContent = 'Start Calling';
+    recordButton.disabled = true;
+    console.log('Stop Calling')
+}

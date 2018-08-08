@@ -13,21 +13,32 @@
         <audio id="song" controls crossorigin="anonymous">
           <source src="./js/Reality.mp3">
         </audio>
+        <div>
+          Music Volume: <input type="number" step="0.1" id="musicVolume" value="1">
+        </div>
       </div>
       <div>
         <h4>Video</h4>
         <video id="video" width="320" height="240" controls>
             <source src="./js/That-Girl.MKV" type="video/webm">
           </video>
+        <div>
+          Video Sound Volume: <input type="number" step="0.1" id="videoSoundVolume" value="1">
+        </div>
       </div>
   </div>
 
   <div id="result">
     <h3>Record result</h3>    
     <div id="function-btn">
+      <button id="call">Start Calling</button>
       <button id="record" disabled>Start Recording</button>
       <button id="play" disabled>Play</button>
       <button id="download" disabled><a id="download-link">Download</a></button>
+    </div>
+    <br />
+    <div>
+      Audio Stream Volume: <input type="number" step="0.1" id="audioStreamVolume" value="1">      
     </div>
     <div>
       <h4>Recorded Audio</h4>
