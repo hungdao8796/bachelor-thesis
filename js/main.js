@@ -7,6 +7,24 @@ const recordButton = document.querySelector('button#record');
 const playButton = document.querySelector('button#play');
 const downloadButton = document.querySelector('button#download');
 
+let pcAudioStream;
+let pcAudioStreamGainNode = audioCtx.createGain();
+let streamAudio;
+let mediaRecorder;
+let recordedBlobs;
+let sourceMusic = audioCtx.createMediaElementSource(myAudio);
+let sourceMusicGainNode = audioCtx.createGain();
+let sourceVideo = audioCtx.createMediaElementSource(myVideo);
+let sourceVideoGainNode = audioCtx.createGain();
+let recordedAudio = document.querySelector('#recordedAudio');
+sourceMusic.connect(sourceMusicGainNode);
+sourceMusicGainNode.connect(audioCtx.destination);
+sourceMusicGainNode.connect(destination);
+sourceVideo.connect(sourceVideoGainNode);
+sourceVideoGainNode.connect(audioCtx.destination);
+sourceVideoGainNode.connect(destination);
+
+
 const musicVolume = document.querySelector('#musicVolume');
 const videoSoundVolume = document.querySelector('#videoSoundVolume');
 const audioStreamVolume = document.querySelector('#audioStreamVolume');
@@ -18,20 +36,20 @@ musicVolume.addEventListener('click', function (e) {
     sourceMusicGainNode.gain.value = musicVolume.value;
 });
 
-let pcAudioStream;
-let streamAudio;
-let mediaRecorder;
-let recordedBlobs;
-let sourceMusic = audioCtx.createMediaElementSource(myAudio);
-let sourceMusicGainNode = audioCtx.createGain();
-let sourceVideo = audioCtx.createMediaElementSource(myVideo);
+videoSoundVolume.addEventListener('keypress', function (e) {
+    e.preventDefault();
+});
+videoSoundVolume.addEventListener('click', function (e) {
+    sourceVideoGainNode.gain.value = videoSoundVolume.value;
+});
 
-let recordedAudio = document.querySelector('#recordedAudio');
-sourceMusic.connect(sourceMusicGainNode);
-sourceMusicGainNode.connect(audioCtx.destination);
-sourceVideo.connect(audioCtx.destination);
-sourceMusic.connect(destination);
-sourceVideo.connect(destination);
+audioStreamVolume.addEventListener('keypress', function (e) {
+    e.preventDefault();
+});
+audioStreamVolume.addEventListener('click', function (e) {
+    pcAudioStreamGainNode.gain.value = audioStreamVolume.value;
+});
+
 callButton.addEventListener('click', () => {
     if (callButton.textContent.trim() === 'Start Calling') {
         startCalling();
@@ -112,7 +130,9 @@ function handleSuccess(stream) {
     streamAudio = stream;
     console.log("Successfully access to microphone");
     pcAudioStream = audioCtx.createMediaStreamSource(streamAudio);
-    pcAudioStream.connect(destination);
+    pcAudioStream.connect(pcAudioStreamGainNode);
+    pcAudioStreamGainNode.connect(audioCtx.destination);
+    pcAudioStreamGainNode.connect(destination);
 }
 
 function startCalling() {
