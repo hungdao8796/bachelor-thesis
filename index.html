@@ -19,7 +19,7 @@
       </div>
       <div>
         <h4>Video</h4>
-        <video id="video" width="320" height="240" controls>
+        <video id="video" width="320" height="240" controls crossorigin="anonymous">
             <source src="./js/That-Girl.MKV" type="video/webm">
           </video>
         <div>
@@ -29,9 +29,10 @@
   </div>
 
   <div id="result">
-    <h3>Record result</h3>    
+    <h3>User's action</h3>    
     <div id="function-btn">
       <button id="call">Start Calling</button>
+      <div id="err"></div>
       <button id="record" disabled>Start Recording</button>
       <button id="play" disabled>Play</button>
       <button id="download" disabled><a id="download-link">Download</a></button>
