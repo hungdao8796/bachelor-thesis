@@ -67,7 +67,13 @@ recordButton.addEventListener('click', () => {
 });
 
 playButton.addEventListener('click', () => {
-    recordedAudio.play();
+    if (recordButton.textContent.trim() === 'Play') {
+        recordButton.textContent = 'Pause';
+        recordedAudio.play();
+    } else {
+        recordButton.textContent = 'Play';
+        recordedAudio.stop();
+    }
 });
 
 downloadButton.addEventListener('click', () => {
