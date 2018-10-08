@@ -67,12 +67,12 @@ recordButton.addEventListener('click', () => {
 });
 
 playButton.addEventListener('click', () => {
-    if (recordButton.textContent.trim() === 'Play') {
-        recordButton.textContent = 'Pause';
-        recordedAudio.play();
+    if (playButton.textContent.trim() === 'Play') {
+        playButton.textContent = 'Pause';
+        playButton.play();
     } else {
-        recordButton.textContent = 'Play';
-        recordedAudio.stop();
+        playButton.textContent = 'Play';
+        playButton.stop();
     }
 });
 
